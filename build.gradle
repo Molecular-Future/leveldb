@@ -1,0 +1,38 @@
+
+buildscript {
+	dependencies { 
+		classpath "onight.osgi:zpp-gradle_1.8:3.4.0"
+	 }
+}
+version = '3.0.0'
+
+project.group='org.mos.core'
+
+apply plugin: 'zippo'
+
+protobuf {
+    generatedFilesBaseDir = "$projectDir/src"
+    generateProtoTasks {
+	  ofSourceSet('main')
+	}
+}
+sourceSets {
+  main {
+    proto {
+      srcDir '$projectDir/src/main/proto'
+    }
+    java {
+      srcDir '$projectDir/src/main/java'
+    }
+  }
+}
+
+dependencies { 
+	compile ("org.fc.zippo:org.fc.zippo.oapi:4.0.2")
+}
+
+jar {
+	manifest{
+		attributes( 'Import-Ignore':'avro.shaded.com.google.common.collect')
+	}
+}
